@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&amp;display=swap');
+      .sans { font-family: 'DM Sans', 'Montserrat', 'Helvetica', sans-serif; }
+    </style>
+  </defs>
+
+  <!-- Thin Gold Outer Square -->
+  <rect x="20" y="20" width="200" height="200" fill="none" stroke="#C9A84C" stroke-width="1.5" />
+  
+  <!-- Dark Navy Inner Fill -->
+  <rect x="30" y="30" width="180" height="180" fill="#1B3A6B" />
+
+  <!-- Monogram -->
+  <text x="50%" y="48%" font-size="64" font-weight="300" text-anchor="middle" dominant-baseline="middle" class="sans" fill="#FFFFFF" letter-spacing="6">
+    K<tspan fill="#C9A84C">P</tspan>
+  </text>
+  
+  <!-- Subtle line -->
+  <line x1="70" y1="150" x2="170" y2="150" stroke="#C9A84C" stroke-width="1" />
+
+  <!-- Subtitle -->
+  <text x="50%" y="175" font-size="10" font-weight="500" text-anchor="middle" class="sans" fill="#FFFFFF" letter-spacing="4" opacity="0.8">
+    FCS 8714
+  </text>
+</svg>

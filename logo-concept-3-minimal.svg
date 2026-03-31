@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 120" width="300" height="120">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600&amp;family=Playfair+Display:wght@600;700&amp;display=swap');
+      .serif { font-family: 'Playfair Display', 'Times New Roman', serif; }
+      .sans { font-family: 'DM Sans', 'Helvetica', sans-serif; }
+    </style>
+  </defs>
+
+  <!-- Vertical Gold Line -->
+  <line x1="30" y1="25" x2="30" y2="95" stroke="#C9A84C" stroke-width="3" />
+  
+  <!-- Monogram -->
+  <text x="55" y="65" font-size="48" font-weight="700" class="serif" fill="#1B3A6B" letter-spacing="1">
+    <tspan fill="#1B3A6B">S</tspan><tspan fill="#C9A84C">KP</tspan>
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="58" y="92" font-size="12" font-weight="600" class="sans" fill="#6B7280" letter-spacing="4">
+    ADVISORY
+  </text>
+</svg>

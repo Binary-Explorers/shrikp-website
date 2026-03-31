@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" width="400" height="120">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600&amp;family=Playfair+Display:wght@600;700&amp;display=swap');
+      .serif { font-family: 'Playfair Display', 'Times New Roman', serif; }
+      .sans { font-family: 'DM Sans', 'Helvetica', sans-serif; }
+    </style>
+  </defs>
+  
+  <!-- Main Text -->
+  <text x="50%" y="60" font-size="52" font-weight="700" text-anchor="middle" class="serif" fill="#1B3A6B" letter-spacing="2">
+    Shri <tspan fill="#C9A84C">KP</tspan>
+  </text>
+  
+  <!-- Divider Line -->
+  <line x1="80" y1="80" x2="320" y2="80" stroke="#C9A84C" stroke-width="1.5" />
+  
+  <!-- Subtitle -->
+  <text x="50%" y="105" font-size="12" text-anchor="middle" class="sans" fill="#1B3A6B" letter-spacing="6" font-weight="600">
+    COMPANY SECRETARY
+  </text>
+</svg>
