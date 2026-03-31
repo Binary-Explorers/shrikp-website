@@ -296,12 +296,31 @@ body {
 }
 
 .logo a {
-  font-family: var(--font-heading);
-  font-size: 1.5rem;
-  font-weight: 700;
   color: var(--clr-text-inverse);
   text-decoration: none;
   transition: color var(--transition-smooth);
+  display: flex;
+  align-items: center;
+}
+
+.nav-logo {
+  height: 48px;
+  width: auto;
+  display: block;
+}
+
+.logo-serif {
+  font-family: var(--font-heading);
+}
+
+.logo-sans {
+  font-family: var(--font-body);
+}
+
+@media (min-width: 768px) {
+  .nav-logo {
+    height: 56px;
+  }
 }
 
 .nav-links {
