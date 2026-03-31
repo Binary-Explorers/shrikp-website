@@ -10,6 +10,11 @@ document.addEventListener('DOMContentLoaded', () => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('is-visible');
+                
+                // Specific inner elements triggering
+                const divider = entry.target.querySelector('.hero-divider');
+                if (divider) divider.classList.add('is-visible');
+                
                 observer.unobserve(entry.target); // Run once
             }
         });
