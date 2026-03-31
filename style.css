@@ -218,6 +218,7 @@ body {
 .anim-delay-1 { animation-delay: 150ms; }
 .anim-delay-2 { animation-delay: 300ms; }
 .anim-delay-3 { animation-delay: 450ms; }
+.anim-delay-4 { animation-delay: 600ms; }
 .anim-delay-4 .gold-line, 
 .anim-delay-4 .tagline { animation-delay: 600ms; }
 .anim-delay-5 { animation-delay: 750ms; }
@@ -518,4 +519,91 @@ body {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+/* WHY CHOOSE US SECTION */
+.why-us-section {
+  background-color: var(--clr-primary);
+  position: relative;
+}
+
+/* Subtle background texture matching hero */
+.why-us-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(var(--clr-accent) 1px, transparent 1px);
+  background-size: 24px 24px;
+  opacity: 0.05;
+  pointer-events: none;
+}
+
+.why-us-section .container {
+  position: relative;
+  z-index: 2;
+}
+
+.stats-strip {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+}
+
+@media (min-width: 768px) {
+  .stats-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .stats-strip {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.stat-card {
+  text-align: center;
+  padding: var(--space-md);
+  border-top: 2px solid rgba(201, 168, 76, 0.2);
+  transition: all var(--transition-smooth);
+}
+
+.stat-card:hover {
+  border-top-color: var(--clr-accent);
+  transform: translateY(-4px);
+}
+
+.stat-number {
+  font-family: var(--font-heading);
+  font-size: 3.5rem;
+  color: var(--clr-accent);
+  font-weight: 600;
+  line-height: 1;
+  margin-bottom: var(--space-xs);
+}
+
+.stat-icon {
+  color: var(--clr-accent);
+  margin-bottom: var(--space-xs);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 56px;
+}
+
+.stat-title {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  color: var(--clr-text-inverse);
+  font-weight: 500;
+  margin-bottom: var(--space-xs);
+}
+
+.stat-desc {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.5;
 }
