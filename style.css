@@ -87,7 +87,7 @@ body {
   z-index: 1;
 }
 
-/* Background System */
+/* Background System (Right-Side Visual) */
 .hero-background {
   position: absolute;
   top: 0;
@@ -96,31 +96,40 @@ body {
   height: 100%;
   z-index: -1;
   background: linear-gradient(135deg, #1B3A6B 0%, #112544 100%);
+  overflow: hidden;
 }
 
 .hero-glow {
   position: absolute;
-  top: -20%;
+  top: -15%;
   right: -10%;
-  width: 70%;
-  height: 80%;
-  background: radial-gradient(circle, rgba(201, 168, 76, 0.18) 0%, rgba(27, 58, 107, 0) 65%);
+  width: 65%;
+  height: 85%;
+  background: radial-gradient(circle, rgba(201, 168, 76, 0.16) 0%, rgba(201, 168, 76, 0) 65%);
   border-radius: 50%;
-  filter: blur(80px);
+  filter: blur(120px);
   pointer-events: none;
+  animation: heroGlowFloat 20s ease-in-out infinite alternate;
 }
 
 .hero-texture {
   position: absolute;
   top: 0;
   right: 0;
-  width: 45%;
+  width: 50%;
   height: 100%;
-  background-image: radial-gradient(rgba(201, 168, 76, 0.12) 1px, transparent 1px);
-  background-size: 24px 24px;
+  background-image: 
+    linear-gradient(rgba(201, 168, 76, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201, 168, 76, 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
   pointer-events: none;
-  mask-image: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
-  -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+  mask-image: radial-gradient(circle at 80% 30%, rgba(0,0,0,1) 5%, rgba(0,0,0,0) 70%);
+  -webkit-mask-image: radial-gradient(circle at 80% 30%, rgba(0,0,0,1) 5%, rgba(0,0,0,0) 70%);
+}
+
+@keyframes heroGlowFloat {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-40px, 30px) scale(1.05); }
 }
 
 /* Layout System */
@@ -275,6 +284,13 @@ body {
   .hero-glow {
     width: 100%;
     right: -20%;
+    top: -5%;
+  }
+
+  .hero-texture {
+    width: 100%;
+    mask-image: radial-gradient(circle at 70% 30%, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 70%);
+    -webkit-mask-image: radial-gradient(circle at 70% 30%, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 70%);
   }
 }
 
