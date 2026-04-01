@@ -48,6 +48,10 @@
 
 /* Removed HTML scroll-behavior: smooth; to allow JS custom easing to take over smoothly */
 
+html, body {
+  overflow-x: hidden;
+}
+
 body {
   font-family: var(--font-body);
   color: var(--clr-text-main);
@@ -59,7 +63,7 @@ body {
 
 .container {
   width: 100%;
-  max-width: 1440px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 24px;
 }
