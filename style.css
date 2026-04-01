@@ -963,46 +963,64 @@ body {
 
 .stat-card {
   text-align: center;
-  padding: var(--space-md);
-  border-top: 2px solid rgba(201, 168, 76, 0.2);
-  transition: all var(--transition-smooth);
+  padding: 48px 32px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-top: 2px solid rgba(201, 168, 76, 0.3);
+  transition: all 400ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
 }
 
 .stat-card:hover {
+  transform: translateY(-8px);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.01) 100%);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+  border-color: rgba(255, 255, 255, 0.08);
   border-top-color: var(--clr-accent);
-  transform: translateY(-4px);
 }
 
 .stat-number {
   font-family: var(--font-heading);
-  font-size: 3.5rem;
-  color: var(--clr-accent);
-  font-weight: 600;
+  font-size: 4.5rem;
+  font-weight: 700;
   line-height: 1;
-  margin-bottom: var(--space-xs);
+  margin-bottom: var(--space-sm);
+  background: linear-gradient(135deg, #C9A84C 0%, #E6C975 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
 }
 
 .stat-icon {
   color: var(--clr-accent);
-  margin-bottom: var(--space-xs);
+  margin-bottom: var(--space-sm);
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 56px;
+  height: 72px;
 }
 
 .stat-title {
   font-family: var(--font-body);
-  font-size: 1.125rem;
+  font-size: 1.25rem;
   color: var(--clr-text-inverse);
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: var(--space-xs);
+  letter-spacing: 0.5px;
 }
 
 .stat-desc {
-  font-size: 0.875rem;
-  color: rgba(255, 255, 255, 0.7);
-  line-height: 1.5;
+  font-size: 0.9375rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.6;
 }
 
 /* CONTACT SECTION */

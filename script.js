@@ -6,6 +6,35 @@ document.addEventListener('DOMContentLoaded', () => {
         threshold: 0.15
     };
 
+    const animateCounter = (el) => {
+        const text = el.innerText.trim();
+        const match = text.match(/^(\d+)(.*)$/);
+        if (match) {
+            const target = parseInt(match[1], 10);
+            const suffix = match[2] || '';
+            const duration = 2000;
+            const frameRate = 1000 / 60;
+            const totalFrames = Math.round(duration / frameRate);
+            let frame = 0;
+            
+            el.innerText = `0${suffix}`;
+            
+            const counter = setInterval(() => {
+                frame++;
+                const progress = frame / totalFrames;
+                const easeOut = 1 - Math.pow(1 - progress, 4);
+                const current = Math.round(target * easeOut);
+                
+                el.innerText = `${current}${suffix}`;
+                
+                if (frame >= totalFrames) {
+                    clearInterval(counter);
+                    el.innerText = text;
+                }
+            }, frameRate);
+        }
+    };
+
     const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -14,6 +43,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Specific inner elements triggering
                 const divider = entry.target.querySelector('.hero-divider');
                 if (divider) divider.classList.add('is-visible');
+                
+                // Trigger counter if stat-number exists within the target
+                const numberEl = entry.target.querySelector('.stat-number');
+                if (numberEl) animateCounter(numberEl);
                 
                 observer.unobserve(entry.target); // Run once
             }
