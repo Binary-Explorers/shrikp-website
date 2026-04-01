@@ -66,6 +66,9 @@ document.addEventListener('DOMContentLoaded', () => {
     progressBar.classList.add('scroll-progress-bar');
     document.body.appendChild(progressBar);
 
+    // Parallax Elements cache
+    const parallaxElements = document.querySelectorAll('.parallax-bg');
+
     const updateScrollState = () => {
         const winScroll = window.scrollY;
         
@@ -80,6 +83,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         const scrolled = (winScroll / height);
         progressBar.style.transform = `scaleX(${scrolled})`;
+
+        // Parallax Movement Loop
+        parallaxElements.forEach(el => {
+            const rect = el.getBoundingClientRect();
+            // Only compute transforms if element is currently inside the viewport vertical buffer
+            if (rect.top <= window.innerHeight && rect.bottom >= 0) {
+                const speed = parseFloat(el.getAttribute('data-parallax'));
+                const yPos = (rect.top - window.innerHeight / 2) * speed;
+                el.style.transform = `translateY(${yPos}px)`;
+            }
+        });
     };
 
     // Advanced IntersectionObserver Scroll Spy
