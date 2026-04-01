@@ -289,25 +289,24 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (isFormValid) {
-                btnText.textContent = 'Sending...';
+                submitBtn.classList.add('loading');
                 submitBtn.style.pointerEvents = 'none';
-                submitBtn.style.opacity = '0.8';
 
                 // Simulate API call
                 setTimeout(() => {
                     formStatus.textContent = 'Thank you! Your message has been sent successfully.';
                     formStatus.className = 'form-status success';
+                    formStatus.style.display = '';
                     form.reset();
                     inputs.forEach(input => {
                         input.closest('.input-wrapper').classList.remove('success', 'error');
                     });
                     
-                    btnText.textContent = 'Send Message';
+                    submitBtn.classList.remove('loading');
                     submitBtn.style.pointerEvents = 'auto';
-                    submitBtn.style.opacity = '1';
 
                     setTimeout(() => {
-                        formStatus.style.display = 'none';
+                        formStatus.className = 'form-status';
                     }, 5000);
                 }, 1500);
             } else {

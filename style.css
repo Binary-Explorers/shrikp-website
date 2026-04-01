@@ -1461,7 +1461,31 @@ body {
 
 .custom-submit:hover .btn-icon {
   transform: translate(6px, -6px);
-  color: var(--clr-accent);
+}
+
+.custom-submit.loading .btn-text {
+  opacity: 0;
+}
+
+.custom-submit.loading .btn-icon {
+  display: none;
+}
+
+.custom-submit.loading::after {
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: buttonSpin 800ms linear infinite;
+  left: calc(50% - 12px);
+  top: calc(50% - 12px);
+}
+
+@keyframes buttonSpin {
+  to { transform: rotate(360deg); }
 }
 
 /* Status Message */
