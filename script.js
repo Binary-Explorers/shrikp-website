@@ -16,17 +16,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const frameRate = 1000 / 60;
             const totalFrames = Math.round(duration / frameRate);
             let frame = 0;
-            
+
             el.innerText = `0${suffix}`;
-            
+
             const counter = setInterval(() => {
                 frame++;
                 const progress = frame / totalFrames;
                 const easeOut = 1 - Math.pow(1 - progress, 4);
                 const current = Math.round(target * easeOut);
-                
+
                 el.innerText = `${current}${suffix}`;
-                
+
                 if (frame >= totalFrames) {
                     clearInterval(counter);
                     el.innerText = text;
@@ -39,15 +39,15 @@ document.addEventListener('DOMContentLoaded', () => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('is-visible');
-                
+
                 // Specific inner elements triggering
                 const divider = entry.target.querySelector('.hero-divider');
                 if (divider) divider.classList.add('is-visible');
-                
+
                 // Trigger counter if stat-number exists within the target
                 const numberEl = entry.target.querySelector('.stat-number');
                 if (numberEl) animateCounter(numberEl);
-                
+
                 observer.unobserve(entry.target); // Run once
             }
         });
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const sections = document.querySelectorAll('section, header');
     const navLinks = document.querySelectorAll('.nav-link');
     const navbar = document.getElementById('navbar');
-    
+
     const progressBar = document.createElement('div');
     progressBar.classList.add('scroll-progress-bar');
     document.body.appendChild(progressBar);
@@ -78,14 +78,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const updateScrollState = () => {
         const winScroll = window.scrollY;
-        
+
         // Navbar Scrolled State
         if (winScroll > 50) {
             navbar.classList.add('scrolled');
         } else {
             navbar.classList.remove('scrolled');
         }
-        
+
         // Progress Bar
         const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         const scrolled = (winScroll / height);
@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
             isScrolling = true;
         }
     }, { passive: true });
-    
+
     // Initial call
     updateScrollState();
 
@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const menuToggle = document.querySelector('.menu-toggle');
     const navLinksContainer = document.querySelector('.nav-links');
 
-    if(menuToggle && navLinksContainer) {
+    if (menuToggle && navLinksContainer) {
         menuToggle.addEventListener('click', () => {
             menuToggle.classList.toggle('active');
             navLinksContainer.classList.toggle('nav-open');
@@ -167,14 +167,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const anchorLinks = document.querySelectorAll('a[href^="#"]');
     anchorLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
+        link.addEventListener('click', function (e) {
             const targetId = this.getAttribute('href');
             if (targetId === '#') return;
-            
+
             const targetEl = document.querySelector(targetId);
             if (targetEl) {
                 e.preventDefault();
-                
+
                 // Close mobile menu if open
                 if (menuToggle && navLinksContainer) {
                     menuToggle.classList.remove('active');
@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const timeElapsed = currentTime - startTime;
                     const progress = Math.min(timeElapsed / duration, 1);
                     const ease = easeOutCubic(progress);
-                    
+
                     window.scrollTo(0, startPosition + distance * ease);
 
                     if (timeElapsed < duration) {
@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const timeElapsed = currentTime - startTime;
             const progress = Math.min(timeElapsed / duration, 1);
             const ease = easeOutCubic(progress);
-            
+
             window.scrollTo(0, startPosition + distance * ease);
 
             if (timeElapsed < duration) {
@@ -301,7 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     inputs.forEach(input => {
                         input.closest('.input-wrapper').classList.remove('success', 'error');
                     });
-                    
+
                     submitBtn.classList.remove('loading');
                     submitBtn.style.pointerEvents = 'auto';
 
