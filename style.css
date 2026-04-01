@@ -286,7 +286,9 @@ body {
 .hero-cta:hover {
   color: #1B3A6B;
   transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(201, 168, 76, 0.25);
+  box-shadow: 
+    0 12px 32px rgba(201, 168, 76, 0.25),
+    0 0 20px rgba(201, 168, 76, 0.4);
   border-color: transparent;
 }
 
@@ -640,7 +642,9 @@ body {
 .nav-btn:hover {
   color: var(--clr-primary);
   transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(201, 168, 76, 0.25);
+  box-shadow: 
+    0 8px 16px rgba(201, 168, 76, 0.25),
+    0 0 16px rgba(201, 168, 76, 0.3);
   border-color: var(--clr-surface);
 }
 
@@ -916,6 +920,10 @@ body {
     0 4px 12px rgba(27, 58, 107, 0.04);
 }
 
+.service-icon-box svg {
+  transition: transform var(--transition-smooth);
+}
+
 /* Hover Interactions */
 .service-card:hover {
   transform: translateY(-8px) scale(1.02);
@@ -938,6 +946,10 @@ body {
     inset 0 0 0 1px rgba(201, 168, 76, 0.3),
     0 8px 16px rgba(201, 168, 76, 0.15),
     0 0 24px rgba(201, 168, 76, 0.2);
+}
+
+.service-card:hover .service-icon-box svg {
+  transform: scale(1.15) rotate(5deg);
 }
 
 /* Typography */
@@ -1074,6 +1086,14 @@ body {
   justify-content: center;
   align-items: center;
   height: 72px;
+}
+
+.stat-icon svg {
+  transition: transform var(--transition-smooth);
+}
+
+.stat-card:hover .stat-icon svg {
+  transform: scale(1.15) translateY(-4px);
 }
 
 .stat-title {
@@ -1423,7 +1443,9 @@ body {
 
 .custom-submit:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(27, 58, 107, 0.25);
+  box-shadow: 
+    0 8px 24px rgba(27, 58, 107, 0.25),
+    0 0 20px rgba(27, 58, 107, 0.15);
 }
 
 .custom-submit:hover::before {
