@@ -114,4 +114,92 @@ document.addEventListener('DOMContentLoaded', () => {
             navLinksContainer.classList.remove('nav-open');
         });
     });
+
+    // 5. Contact Form Validation
+    const form = document.getElementById('contactForm');
+    if (form) {
+        const inputs = form.querySelectorAll('.form-input, .form-select');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = submitBtn.querySelector('.btn-text');
+        const formStatus = document.getElementById('formStatus');
+
+        const validateInput = (input) => {
+            const wrapper = input.closest('.input-wrapper');
+            let isValid = true;
+
+            if (input.hasAttribute('required') && !input.value.trim()) {
+                isValid = false;
+            } else if (input.type === 'email') {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(input.value.trim())) {
+                    isValid = false;
+                }
+            } else if (input.type === 'tel') {
+                const phoneRegex = /^[0-9+\s]+$/;
+                if (!phoneRegex.test(input.value.trim()) || input.value.trim().length < 8) {
+                    isValid = false;
+                }
+            }
+
+            if (isValid) {
+                wrapper.classList.remove('error');
+                if (input.value.trim()) wrapper.classList.add('success');
+            } else {
+                wrapper.classList.remove('success');
+                wrapper.classList.add('error');
+            }
+
+            return isValid;
+        };
+
+        inputs.forEach(input => {
+            input.addEventListener('blur', () => {
+                if (input.value.trim()) validateInput(input);
+            });
+            input.addEventListener('input', () => {
+                const wrapper = input.closest('.input-wrapper');
+                if (wrapper.classList.contains('error')) {
+                    validateInput(input);
+                }
+            });
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            let isFormValid = true;
+
+            inputs.forEach(input => {
+                if (!validateInput(input)) {
+                    isFormValid = false;
+                }
+            });
+
+            if (isFormValid) {
+                btnText.textContent = 'Sending...';
+                submitBtn.style.pointerEvents = 'none';
+                submitBtn.style.opacity = '0.8';
+
+                // Simulate API call
+                setTimeout(() => {
+                    formStatus.textContent = 'Thank you! Your message has been sent successfully.';
+                    formStatus.className = 'form-status success';
+                    form.reset();
+                    inputs.forEach(input => {
+                        input.closest('.input-wrapper').classList.remove('success', 'error');
+                    });
+                    
+                    btnText.textContent = 'Send Message';
+                    submitBtn.style.pointerEvents = 'auto';
+                    submitBtn.style.opacity = '1';
+
+                    setTimeout(() => {
+                        formStatus.style.display = 'none';
+                    }, 5000);
+                }, 1500);
+            } else {
+                formStatus.textContent = 'Please fix the errors in the form before submitting.';
+                formStatus.className = 'form-status error';
+            }
+        });
+    }
 });

@@ -331,51 +331,67 @@
 
                     <!-- Right: Contact Form -->
                     <div class="contact-form-wrapper">
-                        <form class="contact-form">
-                            <div class="form-group row">
+                        <div class="form-header fade-in-up">
+                            <h3 class="form-title">Send a Secure Message</h3>
+                            <p class="form-subtitle">We typically respond within 24 hours.</p>
+                        </div>
+                        <form class="contact-form custom-form" id="contactForm" novalidate>
+                            <div class="form-group row fade-in-up anim-delay-1">
                                 <div class="input-wrapper">
-                                    <label for="name">Full Name</label>
-                                    <input type="text" id="name" placeholder="John Doe">
-                                    <div class="input-line"></div>
+                                    <input type="text" id="name" name="name" class="form-input" placeholder=" " required>
+                                    <label for="name" class="form-label">Full Name</label>
+                                    <div class="focus-border"></div>
+                                    <span class="error-msg">Please enter your name</span>
                                 </div>
                                 <div class="input-wrapper">
-                                    <label for="phone">Phone Number</label>
-                                    <input type="tel" id="phone" placeholder="+91 XXXXX XXXXX">
-                                    <div class="input-line"></div>
+                                    <input type="tel" id="phone" name="phone" class="form-input" placeholder=" " required pattern="^[0-9+\s]+$">
+                                    <label for="phone" class="form-label">Phone</label>
+                                    <div class="focus-border"></div>
+                                    <span class="error-msg">Valid phone required</span>
                                 </div>
                             </div>
                             
-                            <div class="form-group">
+                            <div class="form-group fade-in-up anim-delay-2">
                                 <div class="input-wrapper">
-                                    <label for="email">Email Address</label>
-                                    <input type="email" id="email" placeholder="john@company.com">
-                                    <div class="input-line"></div>
+                                    <input type="email" id="email" name="email" class="form-input" placeholder=" " required>
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <div class="focus-border"></div>
+                                    <span class="error-msg">Valid email required</span>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <div class="input-wrapper">
-                                    <label for="subject">Inquiry Subject</label>
-                                    <select id="subject" class="select-field">
-                                        <option value="" disabled selected>Select an area of practice...</option>
+                            <div class="form-group fade-in-up anim-delay-3">
+                                <div class="input-wrapper select-wrapper">
+                                    <select id="subject" name="subject" class="form-select" required>
+                                        <option value="" disabled selected hidden></option>
                                         <option value="governance">Corporate Governance</option>
                                         <option value="fema">FEMA / RBI</option>
                                         <option value="incorporation">Company Incorporation</option>
                                         <option value="other">Other Inquiry</option>
                                     </select>
-                                    <div class="input-line"></div>
+                                    <label for="subject" class="form-label">Inquiry Subject</label>
+                                    <svg class="select-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                    <div class="focus-border"></div>
+                                    <span class="error-msg">Please select a subject</span>
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group fade-in-up anim-delay-4">
                                 <div class="input-wrapper">
-                                    <label for="message">Your Message</label>
-                                    <textarea id="message" rows="4" placeholder="Briefly describe your requirements..."></textarea>
-                                    <div class="input-line"></div>
+                                    <textarea id="message" name="message" class="form-input" rows="4" placeholder=" " required></textarea>
+                                    <label for="message" class="form-label">Your Message</label>
+                                    <div class="focus-border"></div>
+                                    <span class="error-msg">Please enter your message</span>
                                 </div>
                             </div>
 
-                            <button type="submit" class="submit-btn" aria-label="Send Message">Send Message</button>
+                            <button type="submit" class="submit-btn custom-submit fade-in-up anim-delay-5" aria-label="Send Message" id="submitBtn">
+                                <span class="btn-text">Send Message</span>
+                                <span class="btn-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                                </span>
+                            </button>
+                            <div class="form-status" id="formStatus"></div>
                         </form>
                     </div>
                 </div>
