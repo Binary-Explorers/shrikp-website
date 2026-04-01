@@ -1775,4 +1775,64 @@ body {
   .logo a:hover {
     transform: none;
   }
+  
+  .back-to-top:hover {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(27, 58, 107, 0.15);
+    background-color: var(--clr-primary);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .back-to-top:hover svg {
+    transform: none;
+  }
+}
+
+/* ==========================================================================
+   BACK TO TOP BUTTON
+   ========================================================================== */
+.back-to-top {
+  position: fixed;
+  bottom: clamp(24px, 4vw, 40px);
+  right: clamp(24px, 4vw, 40px);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: var(--clr-primary);
+  color: var(--clr-text-inverse);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all var(--transition-smooth);
+  box-shadow: 0 4px 12px rgba(27, 58, 107, 0.15);
+}
+
+.back-to-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.back-to-top.is-visible:hover {
+  background-color: var(--clr-accent);
+  color: var(--clr-text-inverse);
+  border-color: var(--clr-accent);
+  transform: translateY(-4px);
+  box-shadow: 
+    0 8px 24px rgba(201, 168, 76, 0.25),
+    0 0 16px rgba(201, 168, 76, 0.2);
+}
+
+.back-to-top svg {
+  transition: transform var(--transition-smooth);
+}
+
+.back-to-top.is-visible:hover svg {
+  transform: translateY(-2px);
 }

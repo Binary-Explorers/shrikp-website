@@ -66,6 +66,13 @@ document.addEventListener('DOMContentLoaded', () => {
     progressBar.classList.add('scroll-progress-bar');
     document.body.appendChild(progressBar);
 
+    const backToTopBtn = document.createElement('button');
+    backToTopBtn.id = 'backToTop';
+    backToTopBtn.className = 'back-to-top';
+    backToTopBtn.setAttribute('aria-label', 'Back to Top');
+    backToTopBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>';
+    document.body.appendChild(backToTopBtn);
+
     // Parallax Elements cache
     const parallaxElements = document.querySelectorAll('.parallax-bg');
 
@@ -83,6 +90,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         const scrolled = (winScroll / height);
         progressBar.style.transform = `scaleX(${scrolled})`;
+
+        // Back To Top Visibility
+        if (winScroll > window.innerHeight * 0.8) {
+            backToTopBtn.classList.add('is-visible');
+        } else {
+            backToTopBtn.classList.remove('is-visible');
+        }
 
         // Parallax Movement Loop
         parallaxElements.forEach(el => {
@@ -192,7 +206,30 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 5. Contact Form Validation
+    // 5. Back To Top Action
+    backToTopBtn.addEventListener('click', () => {
+        const startPosition = window.pageYOffset;
+        const distance = -startPosition;
+        const duration = 800; // Premium 800ms scroll back to top
+        let startTime = null;
+
+        const animation = (currentTime) => {
+            if (startTime === null) startTime = currentTime;
+            const timeElapsed = currentTime - startTime;
+            const progress = Math.min(timeElapsed / duration, 1);
+            const ease = easeOutCubic(progress);
+            
+            window.scrollTo(0, startPosition + distance * ease);
+
+            if (timeElapsed < duration) {
+                window.requestAnimationFrame(animation);
+            }
+        };
+
+        window.requestAnimationFrame(animation);
+    });
+
+    // 6. Contact Form Validation
     const form = document.getElementById('contactForm');
     if (form) {
         const inputs = form.querySelectorAll('.form-input, .form-select');
