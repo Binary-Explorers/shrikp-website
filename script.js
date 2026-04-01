@@ -80,27 +80,33 @@ document.addEventListener('DOMContentLoaded', () => {
         const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         const scrolled = (winScroll / height);
         progressBar.style.transform = `scaleX(${scrolled})`;
-
-        // Scroll Spy
-        let currentSectionId = '';
-        const spyPosition = winScroll + window.innerHeight / 3;
-
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.offsetHeight;
-            if (spyPosition >= sectionTop && spyPosition < sectionTop + sectionHeight) {
-                const id = section.getAttribute('id');
-                if (id) currentSectionId = id;
-            }
-        });
-
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === `#${currentSectionId}`) {
-                link.classList.add('active');
-            }
-        });
     };
+
+    // Advanced IntersectionObserver Scroll Spy
+    // This perfectly toggles active links without forcing browser reflows like offsetTop does
+    const activeNavObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                if (id) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${id}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            }
+        });
+    }, {
+        root: null,
+        rootMargin: '-30% 0px -60% 0px', // Highly tuned margin to detect the 'reading focus' area
+        threshold: 0
+    });
+
+    sections.forEach(section => {
+        activeNavObserver.observe(section);
+    });
 
     // requestAnimationFrame scroll listener for extreme performance
     let isScrolling = false;
