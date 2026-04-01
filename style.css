@@ -46,9 +46,7 @@
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+/* Removed HTML scroll-behavior: smooth; to allow JS custom easing to take over smoothly */
 
 body {
   font-family: var(--font-body);
@@ -434,6 +432,20 @@ body {
 
 @keyframes growDown {
   to { transform: scaleY(1); }
+}
+
+/* Progress Bar Indicator */
+.scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--clr-primary), var(--clr-accent));
+  z-index: 9999;
+  transform-origin: 0 0;
+  transform: scaleX(0);
+  will-change: transform;
 }
 
 /* UTILITY CLASSES */

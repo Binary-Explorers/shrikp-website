@@ -57,20 +57,40 @@ document.addEventListener('DOMContentLoaded', () => {
     animatedElements.forEach(el => observer.observe(el));
 
 
-    // 2. Scroll Spy for Navbar Active Linking
-    const sections = document.querySelectorAll('section');
+    // 2. Scroll Spy and Progress Bar (Performance Optimized)
+    const sections = document.querySelectorAll('section, header');
     const navLinks = document.querySelectorAll('.nav-link');
+    const navbar = document.getElementById('navbar');
+    
+    const progressBar = document.createElement('div');
+    progressBar.classList.add('scroll-progress-bar');
+    document.body.appendChild(progressBar);
 
-    const updateActiveLink = () => {
+    const updateScrollState = () => {
+        const winScroll = window.scrollY;
+        
+        // Navbar Scrolled State
+        if (winScroll > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+        
+        // Progress Bar
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height);
+        progressBar.style.transform = `scaleX(${scrolled})`;
+
+        // Scroll Spy
         let currentSectionId = '';
-        const scrollPosition = window.scrollY + window.innerHeight / 3; // Trigger earlier
+        const spyPosition = winScroll + window.innerHeight / 3;
 
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
             const sectionHeight = section.offsetHeight;
-            
-            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                currentSectionId = section.getAttribute('id');
+            if (spyPosition >= sectionTop && spyPosition < sectionTop + sectionHeight) {
+                const id = section.getAttribute('id');
+                if (id) currentSectionId = id;
             }
         });
 
@@ -82,36 +102,73 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    window.addEventListener('scroll', updateActiveLink);
-    // Initial call
-    updateActiveLink();
-
-
-    // 3. Navbar Scrolled State
-    const navbar = document.getElementById('navbar');
+    // requestAnimationFrame scroll listener for extreme performance
+    let isScrolling = false;
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
+        if (!isScrolling) {
+            window.requestAnimationFrame(() => {
+                updateScrollState();
+                isScrolling = false;
+            });
+            isScrolling = true;
         }
-    });
+    }, { passive: true });
+    
+    // Initial call
+    updateScrollState();
 
-
-    // 4. Mobile Menu Toggle
+    // 3. Mobile Menu Toggle
     const menuToggle = document.querySelector('.menu-toggle');
     const navLinksContainer = document.querySelector('.nav-links');
 
-    menuToggle.addEventListener('click', () => {
-        menuToggle.classList.toggle('active');
-        navLinksContainer.classList.toggle('nav-open');
-    });
+    if(menuToggle && navLinksContainer) {
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            navLinksContainer.classList.toggle('nav-open');
+        });
+    }
 
-    // Close mobile menu when a link is clicked
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            menuToggle.classList.remove('active');
-            navLinksContainer.classList.remove('nav-open');
+    // 4. Premium Custom Smooth Scrolling
+    const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3); // Emulates cubic-bezier(0.25, 1, 0.5, 1)
+
+    const anchorLinks = document.querySelectorAll('a[href^="#"]');
+    anchorLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetEl = document.querySelector(targetId);
+            if (targetEl) {
+                e.preventDefault();
+                
+                // Close mobile menu if open
+                if (menuToggle && navLinksContainer) {
+                    menuToggle.classList.remove('active');
+                    navLinksContainer.classList.remove('nav-open');
+                }
+
+                const navbarHeight = navbar.offsetHeight;
+                const targetPosition = targetEl.getBoundingClientRect().top + window.pageYOffset - (navbarHeight - 2); // 2px extra clearance
+                const startPosition = window.pageYOffset;
+                const distance = targetPosition - startPosition;
+                const duration = 800; // 800ms premium duration
+                let startTime = null;
+
+                const animation = (currentTime) => {
+                    if (startTime === null) startTime = currentTime;
+                    const timeElapsed = currentTime - startTime;
+                    const progress = Math.min(timeElapsed / duration, 1);
+                    const ease = easeOutCubic(progress);
+                    
+                    window.scrollTo(0, startPosition + distance * ease);
+
+                    if (timeElapsed < duration) {
+                        window.requestAnimationFrame(animation);
+                    }
+                };
+
+                window.requestAnimationFrame(animation);
+            }
         });
     });
 
