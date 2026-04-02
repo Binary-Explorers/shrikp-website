@@ -2147,11 +2147,13 @@ body {
    BACK TO TOP BUTTON
    ========================================================================== */
 .back-to-top {
+  --btt-size: 56px;
+  --btt-ring-stroke: 4px;
   position: fixed;
   bottom: clamp(24px, 4vw, 40px);
   right: clamp(24px, 4vw, 40px);
-  width: 56px;
-  height: 56px;
+  width: var(--btt-size);
+  height: var(--btt-size);
   border-radius: 50%;
   background-color: var(--clr-primary);
   color: var(--clr-text-inverse);
@@ -2166,6 +2168,42 @@ body {
   transform: translateY(20px);
   transition: all var(--transition-smooth);
   box-shadow: 0 4px 12px rgba(27, 58, 107, 0.15);
+}
+
+.back-to-top .progress-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  pointer-events: none;
+}
+
+.back-to-top .progress-track,
+.back-to-top .progress-indicator {
+  fill: none;
+  stroke-width: var(--btt-ring-stroke);
+}
+
+.back-to-top .progress-track {
+  stroke: rgba(255, 255, 255, 0.2);
+}
+
+.back-to-top .progress-indicator {
+  stroke: var(--clr-accent);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 200ms linear;
+}
+
+.back-to-top .back-to-top-icon {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 }
 
 .back-to-top.is-visible {
@@ -2184,10 +2222,18 @@ body {
     0 0 16px rgba(201, 168, 76, 0.2);
 }
 
-.back-to-top svg {
+.back-to-top .back-to-top-icon svg {
   transition: transform var(--transition-smooth);
 }
 
-.back-to-top.is-visible:hover svg {
+.back-to-top.is-visible:hover .back-to-top-icon svg {
   transform: translateY(-2px);
+}
+
+@media (max-width: 767px) {
+  .back-to-top {
+    --btt-size: 48px;
+    bottom: 20px;
+    right: 20px;
+  }
 }

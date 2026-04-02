@@ -70,11 +70,65 @@ document.addEventListener('DOMContentLoaded', () => {
     backToTopBtn.id = 'backToTop';
     backToTopBtn.className = 'back-to-top';
     backToTopBtn.setAttribute('aria-label', 'Back to Top');
-    backToTopBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>';
+    backToTopBtn.innerHTML = `
+        <svg class="progress-ring" viewBox="0 0 56 56" aria-hidden="true">
+            <circle class="progress-track" cx="28" cy="28" r="24"></circle>
+            <circle class="progress-indicator" cx="28" cy="28" r="24"></circle>
+        </svg>
+        <span class="back-to-top-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 15l-6-6-6 6"/>
+            </svg>
+        </span>
+    `;
     document.body.appendChild(backToTopBtn);
 
     // Parallax Elements cache
     const parallaxElements = document.querySelectorAll('.parallax-bg');
+
+    const progressIndicator = backToTopBtn.querySelector('.progress-indicator');
+    const ringRadius = progressIndicator?.r.baseVal.value || 0;
+    const ringCircumference = 2 * Math.PI * ringRadius;
+
+    if (progressIndicator) {
+        progressIndicator.style.strokeDasharray = `${ringCircumference} ${ringCircumference}`;
+        progressIndicator.style.strokeDashoffset = `${ringCircumference}`;
+    }
+
+    let sectionTops = [];
+    const refreshSectionMetrics = () => {
+        sectionTops = Array.from(sections).map(section => (
+            section.getBoundingClientRect().top + window.pageYOffset
+        ));
+    };
+
+    const getSectionProgress = (scrollY) => {
+        if (sectionTops.length <= 1) return 0;
+        const maxIndex = sectionTops.length - 1;
+        let currentIndex = 0;
+
+        for (let i = 0; i < sectionTops.length; i++) {
+            if (scrollY + 1 >= sectionTops[i]) {
+                currentIndex = i;
+            } else {
+                break;
+            }
+        }
+
+        const start = sectionTops[currentIndex];
+        const end = sectionTops[Math.min(currentIndex + 1, maxIndex)];
+        const span = Math.max(1, end - start);
+        const localProgress = Math.min(1, Math.max(0, (scrollY - start) / span));
+
+        return (currentIndex + localProgress) / maxIndex;
+    };
+
+    const updateProgressRing = (progress) => {
+        if (!progressIndicator) return;
+        const clamped = Math.max(0, Math.min(1, progress));
+        const offset = ringCircumference * (1 - clamped);
+        progressIndicator.style.strokeDashoffset = `${offset}`;
+    };
 
     const updateScrollState = () => {
         const winScroll = window.scrollY;
@@ -90,6 +144,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         const scrolled = (winScroll / height);
         progressBar.style.transform = `scaleX(${scrolled})`;
+
+        // Circular progress based on section count
+        updateProgressRing(getSectionProgress(winScroll));
 
         // Back To Top Visibility
         if (winScroll > window.innerHeight * 0.8) {
@@ -148,8 +205,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, { passive: true });
 
+    refreshSectionMetrics();
     // Initial call
     updateScrollState();
+
+    window.addEventListener('resize', () => {
+        refreshSectionMetrics();
+        updateScrollState();
+    }, { passive: true });
 
     // 3. Premium Mobile Menu (Off-Canvas with Backdrop, Focus Trap, Scroll Lock)
     const menuToggle = document.querySelector('.menu-toggle');
