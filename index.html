@@ -521,7 +521,8 @@
                             <h3 class="form-title">Send a Secure Message</h3>
                             <p class="form-subtitle">We typically respond within 24 hours.</p>
                         </div>
-                        <form class="contact-form custom-form" id="contactForm" novalidate>
+                        <form class="contact-form custom-form" id="contactForm" name="contact" method="POST" data-netlify="true" novalidate>
+                            <input type="hidden" name="form-name" value="contact" />
                             <div class="form-group row fade-in-up anim-delay-1">
                                 <div class="input-wrapper">
                                     <input type="text" id="name" name="name" class="form-input" placeholder=" "

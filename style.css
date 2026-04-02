@@ -1998,6 +1998,11 @@ body {
 
 .custom-submit.loading .btn-text {
   opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.custom-submit .btn-text {
+  transition: opacity 200ms ease;
 }
 
 .custom-submit.loading .btn-icon {
@@ -2047,6 +2052,66 @@ body {
   background-color: #FEF2F2;
   color: #991B1B;
   border: 1px solid #FECACA;
+}
+
+/* Fallback UI for Network Failures */
+.fallback-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fallback-message {
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.fallback-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.fallback-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  border: 1px solid;
+  transition: all 200ms ease;
+  cursor: pointer;
+}
+
+.fallback-btn.whatsapp-btn {
+  background-color: #25D366;
+  color: #FFFFFF;
+  border-color: #25D366;
+}
+
+.fallback-btn.whatsapp-btn:hover {
+  background-color: #20BA5A;
+  border-color: #20BA5A;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+}
+
+.fallback-btn.phone-btn {
+  background-color: #1B3A6B;
+  color: #FFFFFF;
+  border-color: #1B3A6B;
+}
+
+.fallback-btn.phone-btn:hover {
+  background-color: #122A50;
+  border-color: #122A50;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(27, 58, 107, 0.3);
 }
 
 /* ==========================================================================

@@ -1,3 +1,94 @@
+// ==========================================
+// FORM CONFIGURATION
+// ==========================================
+const FORM_CONFIG = {
+    FORM_MODE: 'netlify', // 'netlify' or 'google'
+    RECIPIENT_EMAIL: 'sitexar.team@gmail.com',
+    GOOGLE_SCRIPT_URL: 'YOUR_GOOGLE_SCRIPT_URL', // Replace with actual Google Apps Script URL
+    WHATSAPP_NUMBER: '+919008667286',
+    PHONE_NUMBER: '+919008667286'
+};
+
+// ==========================================
+// UTILITY FUNCTIONS FOR FORM SUBMISSION
+// ==========================================
+
+/**
+ * Format form data into a structured email message
+ */
+function formatEmailMessage(formData) {
+    const timestamp = new Date().toLocaleString('en-IN', {
+        timeZone: 'Asia/Kolkata',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    });
+
+    return `New Client Inquiry Received
+
+Name: ${formData.name}
+Phone: ${formData.phone}
+Email: ${formData.email}
+Subject: ${formData.subject}
+
+Message:
+-------------------------
+${formData.message}
+-------------------------
+
+Submitted At: ${timestamp}`;
+}
+
+/**
+ * Send form data to Google Sheets (future integration)
+ */
+async function sendToGoogleSheets(formData) {
+    try {
+        const response = await fetch(FORM_CONFIG.GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+        return true;
+    } catch (error) {
+        console.error('Google Sheets submission error:', error);
+        return false;
+    }
+}
+
+/**
+ * Display fallback contact UI when submission fails
+ */
+function showFallbackUI() {
+    const formStatus = document.getElementById('formStatus');
+    const whatsappLink = `https://wa.me/${FORM_CONFIG.WHATSAPP_NUMBER.replace(/[^0-9]/g, '')}?text=Hi%2C%20I%20wanted%20to%20contact%20Shri%20KP%20%26%20Associates`;
+    const phoneLink = `tel:${FORM_CONFIG.PHONE_NUMBER}`;
+
+    formStatus.innerHTML = `
+        <div class="fallback-container">
+            <p class="fallback-message">Unable to submit form. Please contact us directly.</p>
+            <div class="fallback-actions">
+                <a href="${whatsappLink}" target="_blank" rel="noopener noreferrer" class="fallback-btn whatsapp-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;margin-right:8px;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-4.7 1.12l-.337.197-.35-.055c-1.232-.196-2.444-.477-3.6-.932-.256-.1-.512-.202-.704-.295-.202-.1-.406-.19-.612-.26L3.776 1.08c-.33 0-.603.285-.603.637v3.813c0 .233-.04.505-.14.784C2.457 8.155 1.5 10.4 1.5 12.74c0 3.88 2.318 7.275 5.85 8.963.794.36 1.66.65 2.568.859.91.208 1.84.3 2.744.258.904-.043 1.78-.235 2.63-.566.325-.124.644-.25.957-.39.258-.12.51-.25.758-.398.242-.14.475-.295.697-.465 1.51-1.15 2.675-2.666 3.284-4.384.305-.86.483-1.788.47-2.68 0-1.013-.13-2.023-.382-3l.13-.216c.5-.82.83-1.681.983-2.53.153-.848.15-1.694.001-2.49.002-1.045-.274-1.927-.798-2.597.236-.256.47-.548.697-.877.226-.33.42-.703.576-1.105.15-.38.252-.806.31-1.27.057-.462.048-.948-.02-1.456Z"/></svg>
+                    WhatsApp
+                </a>
+                <a href="${phoneLink}" class="fallback-btn phone-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block;margin-right:8px;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                    Call Now
+                </a>
+            </div>
+        </div>
+    `;
+    formStatus.className = 'form-status error';
+    formStatus.style.display = '';
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Intersection Observer for Fade-In Animations
     const observerOptions = {
@@ -408,7 +499,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
             let isFormValid = true;
 
@@ -419,26 +510,75 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (isFormValid) {
+                // ===== START SUBMISSION FLOW =====
                 submitBtn.classList.add('loading');
                 submitBtn.style.pointerEvents = 'none';
+                const originalBtnText = btnText.textContent;
+                btnText.textContent = 'Sending...';
 
-                // Simulate API call
-                setTimeout(() => {
-                    formStatus.textContent = 'Thank you! Your message has been sent successfully.';
+                // Collect form data
+                const formData = {
+                    name: form.name.value.trim(),
+                    phone: form.phone.value.trim(),
+                    email: form.email.value.trim(),
+                    subject: form.subject.value.trim(),
+                    message: form.message.value.trim()
+                };
+
+                try {
+                    if (FORM_CONFIG.FORM_MODE === 'netlify') {
+                        // Submit to Netlify Forms
+                        const netlifyData = new FormData(form);
+                        const response = await fetch('/', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                            body: new URLSearchParams(netlifyData)
+                        });
+
+                        if (!response.ok) {
+                            throw new Error('Netlify submission failed');
+                        }
+                    } else if (FORM_CONFIG.FORM_MODE === 'google') {
+                        // Submit to Google Sheets
+                        const success = await sendToGoogleSheets(formData);
+                        if (!success) {
+                            throw new Error('Google Sheets submission failed');
+                        }
+                    }
+
+                    // ===== SUCCESS FLOW =====
+                    formStatus.innerHTML = '<p style="font-size: 14px; line-height: 1.5;">Thank you for contacting us. We will respond within 24 hours.</p>';
                     formStatus.className = 'form-status success';
                     formStatus.style.display = '';
+                    
+                    // Reset form
                     form.reset();
                     inputs.forEach(input => {
                         input.closest('.input-wrapper').classList.remove('success', 'error');
                     });
 
-                    submitBtn.classList.remove('loading');
-                    submitBtn.style.pointerEvents = 'auto';
+                    // Reset button after 3 seconds
+                    setTimeout(() => {
+                        submitBtn.classList.remove('loading');
+                        submitBtn.style.pointerEvents = 'auto';
+                        btnText.textContent = originalBtnText;
+                    }, 3000);
 
+                    // Clear success message
                     setTimeout(() => {
                         formStatus.className = 'form-status';
                     }, 5000);
-                }, 1500);
+
+                } catch (error) {
+                    // ===== ERROR FLOW: SHOW FALLBACK UI =====
+                    console.error('Form submission error:', error);
+                    showFallbackUI();
+                    
+                    // Reset button to allow retry
+                    submitBtn.classList.remove('loading');
+                    submitBtn.style.pointerEvents = 'auto';
+                    btnText.textContent = originalBtnText;
+                }
             } else {
                 formStatus.textContent = 'Please fix the errors in the form before submitting.';
                 formStatus.className = 'form-status error';
