@@ -445,4 +445,37 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // 7. Services Accordion (Mobile)
+    const serviceGroups = document.querySelectorAll('.service-group');
+    const accordionMq = window.matchMedia('(max-width: 767px)');
+
+    const syncServiceAccordion = () => {
+        if (!serviceGroups.length) return;
+
+        if (accordionMq.matches) {
+            const hasOpen = Array.from(serviceGroups).some(group => group.hasAttribute('open'));
+            if (!hasOpen && serviceGroups[0]) {
+                serviceGroups[0].setAttribute('open', '');
+            }
+        } else {
+            serviceGroups.forEach(group => group.setAttribute('open', ''));
+        }
+    };
+
+    const handleServiceToggle = (event) => {
+        if (!accordionMq.matches) return;
+        const current = event.currentTarget;
+        if (!current.open) return;
+
+        serviceGroups.forEach(group => {
+            if (group !== current) {
+                group.removeAttribute('open');
+            }
+        });
+    };
+
+    serviceGroups.forEach(group => group.addEventListener('toggle', handleServiceToggle));
+    syncServiceAccordion();
+    accordionMq.addEventListener('change', syncServiceAccordion);
 });
