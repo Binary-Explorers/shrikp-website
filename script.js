@@ -151,14 +151,81 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial call
     updateScrollState();
 
-    // 3. Mobile Menu Toggle
+    // 3. Premium Mobile Menu (Off-Canvas with Backdrop, Focus Trap, Scroll Lock)
     const menuToggle = document.querySelector('.menu-toggle');
     const navLinksContainer = document.querySelector('.nav-links');
+    const navBackdrop = document.querySelector('.nav-backdrop');
+    const navCloseBtn = document.querySelector('.nav-close');
+
+    const toggleMobileMenu = (open) => {
+        const isOpen = open !== undefined ? open : !menuToggle.classList.contains('active');
+        
+        menuToggle.classList.toggle('active', isOpen);
+        menuToggle.setAttribute('aria-expanded', isOpen);
+        navLinksContainer.classList.toggle('nav-open', isOpen);
+        navLinksContainer.setAttribute('aria-expanded', isOpen);
+        
+        if (navBackdrop) navBackdrop.classList.toggle('nav-open', isOpen);
+        
+        if (isOpen) {
+            // Body scroll lock
+            document.body.style.overflow = 'hidden';
+            // Focus first link
+            navLinksContainer.querySelector('.nav-link')?.focus();
+        } else {
+            document.body.style.overflow = '';
+        }
+    };
 
     if (menuToggle && navLinksContainer) {
-        menuToggle.addEventListener('click', () => {
-            menuToggle.classList.toggle('active');
-            navLinksContainer.classList.toggle('nav-open');
+        // Toggle button
+        menuToggle.addEventListener('click', () => toggleMobileMenu());
+        
+        // Backdrop click
+        if (navBackdrop) {
+            navBackdrop.addEventListener('click', () => toggleMobileMenu(false));
+        }
+        
+        // Close button
+        if (navCloseBtn) {
+            navCloseBtn.addEventListener('click', () => toggleMobileMenu(false));
+        }
+        
+        // Close on Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && menuToggle.classList.contains('active')) {
+                toggleMobileMenu(false);
+            }
+        });
+        
+        // Focus trap
+        navLinksContainer.addEventListener('keydown', (e) => {
+            if (!navLinksContainer.classList.contains('nav-open')) return;
+            
+            const focusable = navLinksContainer.querySelectorAll(
+                'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+            );
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            
+            if (e.key === 'Tab') {
+                if (e.shiftKey) {
+                    if (document.activeElement === first) {
+                        e.preventDefault();
+                        last.focus();
+                    }
+                } else {
+                    if (document.activeElement === last) {
+                        e.preventDefault();
+                        first.focus();
+                    }
+                }
+            }
+        });
+        
+        // Close on nav link click
+        navLinksContainer.querySelectorAll('.nav-link, .nav-btn').forEach(link => {
+            link.addEventListener('click', () => toggleMobileMenu(false));
         });
     }
 

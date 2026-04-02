@@ -37,13 +37,15 @@
                     </svg>
                 </a>
             </div>
-            <div class="nav-links">
-                <a href="#about" class="nav-link">About</a>
-                <a href="#services" class="nav-link">Services</a>
-                <a href="#why-us" class="nav-link">Why Us</a>
-                <a href="#contact" class="nav-btn">Contact</a>
+            <div class="nav-links" role="navigation" aria-expanded="false" aria-label="Main navigation">
+                <button class="nav-close" aria-label="Close menu">×</button>
+                <a href="#about" class="nav-link"><span>About</span></a>
+                <a href="#services" class="nav-link"><span>Services</span></a>
+                <a href="#why-us" class="nav-link"><span>Why Us</span></a>
+                <a href="#contact" class="nav-btn"><span>Contact</span></a>
             </div>
-            <button class="menu-toggle" aria-label="Toggle menu">
+            <div class="nav-backdrop"></div>
+            <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
                 <span></span><span></span><span></span>
             </button>
         </div>
